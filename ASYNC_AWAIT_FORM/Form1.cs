@@ -20,8 +20,12 @@ namespace ASYNC_AWAIT_FORM
 
         public static async void Cook()
         {
+            Console.WriteLine("Cook() Started");
+            
             var ret = await HeatUP();
             Console.WriteLine("RET is -> " + ret);
+            CookEggs();
+            CookBecons();
             CookEggs();
             CookBecons();
             Console.WriteLine("Cook() End");
@@ -64,6 +68,34 @@ namespace ASYNC_AWAIT_FORM
         private void button1_Click(object sender, EventArgs e)
         {
             Cook();
+            listBox1.Items.Add("WESDASD");
+            Console.WriteLine("button1_Click() End");
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Count();
+            Console.WriteLine("button2_Click() End");
+        }
+
+        private async void Count()
+        {
+            await Task.Run(() =>
+            {
+                for (int i = 0; i < 5; i++)
+                {
+
+                    this.Invoke((MethodInvoker)delegate {
+                        listBox1.Items.Add(i.ToString()); // runs on UI thread
+                    });
+                    Thread.Sleep(1000);
+                }
+            });
         }
     }
 }
